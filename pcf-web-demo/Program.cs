@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 
 namespace pcf_web_demo
 {
@@ -18,8 +13,12 @@ namespace pcf_web_demo
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        WebHost.CreateDefaultBuilder(args)
+            .UseCloudFoundryHosting()
+
+            // Add VCAP_* configuration data
+            .AddCloudFoundry()
+            .UseStartup<Startup>()
+            .Build();
     }
 }

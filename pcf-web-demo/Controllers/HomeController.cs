@@ -21,6 +21,7 @@ namespace pcf_web_demo.Controllers
         public IActionResult Index()
         {
             ViewBag.ConfigLabel = Configuration["option1"];
+            ViewBag.AppName = Configuration["vcap:application:application_name"];
             return View();
         }
 
