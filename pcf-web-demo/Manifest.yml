@@ -3,3 +3,5 @@ applications:
 - name: pcf-web-demo
   disk_quota: 512M
   buildpack: https://github.com/cloudfoundry/dotnet-core-buildpack
+  services:
+    - config-server

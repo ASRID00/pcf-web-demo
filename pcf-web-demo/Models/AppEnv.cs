@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace pcf_web_demo.Models
 {
-    public class AppEnv
+    public class ConfigServerData
     {
+        public Features Features { get; set; }
+    }
+    public class Features
+    {
+        public string WowFeature { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Steeltoe.Extensions.Configuration;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Microsoft.Extensions.Logging;
+using Pivotal.Extensions.Configuration.ConfigServer;
 
 namespace pcf_web_demo
 {
@@ -15,9 +15,7 @@ namespace pcf_web_demo
         public static IWebHost BuildWebHost(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
             .UseCloudFoundryHosting()
-
-            // Add VCAP_* configuration data
-            .AddCloudFoundry()
+            .ConfigureAppConfiguration(b => b.AddConfigServer(new LoggerFactory().AddConsole(LogLevel.Trace)))
             .UseStartup<Startup>()
             .Build();
     }

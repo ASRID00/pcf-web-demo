@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Pivotal.Extensions.Configuration.ConfigServer;
+using pcf_web_demo.Models;
 
 namespace pcf_web_demo
 {
@@ -18,7 +21,22 @@ namespace pcf_web_demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
+            // Optional: Adds ConfigServerClientOptions to service container
+            services.ConfigureConfigServerClientOptions(Configuration);
+
+            // Optional:  Adds IConfiguration and IConfigurationRoot to service container
+            services.AddConfiguration(Configuration);
+
+            // Optional:  Adds CloudFoundryApplicationOptions and CloudFoundryServicesOptions to service container
+            services.ConfigureCloudFoundryOptions(Configuration);
+
+            // Add framework services.
             services.AddMvc();
+
+            // Adds the configuration data POCO configured with data returned from the Spring Cloud Config Server
+            services.Configure<ConfigServerData>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
